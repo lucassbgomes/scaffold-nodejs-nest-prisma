@@ -1,0 +1,14 @@
+# eslint ignore
+
+# Dependencies
+node_modules
+
+# Environment
+.env
+.env.test
+
+# Build
+dist
+
+# Test
+coverage

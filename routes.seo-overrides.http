@@ -1,0 +1,59 @@
+@baseUrl = http://localhost:3333
+
+@token = {{authenticate.response.body.access_token}}
+
+###
+
+# @name authenticate
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "username": "testadmin@api.com",
+  "password": "123456"
+}
+
+###
+
+# @name create_seo_override
+POST {{baseUrl}}/seo-overrides
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Tit Seo Override 3",
+  "description": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.",
+  "image": "https://picsum.photos/200"
+}
+
+###
+
+# @name fetch_posts
+GET {{baseUrl}}/seo-overrides
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# @name get_post_by_id
+GET {{baseUrl}}/seo-overrides/bf25779e-66ec-43b0-ae5c-c9e64b2e1d9b
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# @name edit_post
+PATCH {{baseUrl}}/seo-overrides/bf25779e-66ec-43b0-ae5c-c9e64b2e1d9b
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Title Seo Override 2 Edited"
+}
+
+###
+
+# @name delete_post
+DELETE {{baseUrl}}/seo-overrides/bf25779e-66ec-43b0-ae5c-c9e64b2e1d9b
+Content-Type: application/json
+Authorization: Bearer {{token}}

@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: scaffold-nodejs-nestjs-prisma-pg
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: scaffold-nestjs
+      PGDATA: /data/postrgres
+    volumes:
+      - ./data/pg:/data/postrgres

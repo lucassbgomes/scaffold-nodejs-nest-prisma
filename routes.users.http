@@ -1,0 +1,79 @@
+@baseUrl = http://localhost:3333
+
+@token = {{authenticate.response.body.access_token}}
+
+@setCookie = {{authenticate.response.headers.set-cookie}}
+
+###
+
+# @name register_user
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Api Admin",
+  "username": "testapiadmin",
+  "email": "testadmin@api.com",
+  "password": "123456",
+  "role": "ADMIN"
+}
+
+###
+
+# @name authenticate
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "username": "testadmin@api.com",
+  "password": "123456"
+}
+
+###
+
+# @name refresh_token_user
+POST {{baseUrl}}/sessions/refresh-token
+Content-Type: application/json
+Authorization: Bearer {{token}}
+Cookie: {{setCookie}}
+
+
+###
+
+# @name fetch_users
+GET {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# @name get_user_by_id
+GET {{baseUrl}}/users/2ba096f3-ca9a-43ef-843b-a5a10d409654
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# @name get_user_profile
+GET {{baseUrl}}/me
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# @name edit_user
+PATCH {{baseUrl}}/users/2ba096f3-ca9a-43ef-843b-a5a10d409654
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "lastName": "Api Admin Edited"
+}
+
+###
+
+# @name delete_user
+DELETE {{baseUrl}}/users/2ba096f3-ca9a-43ef-843b-a5a10d409654
+Content-Type: application/json
+Authorization: Bearer {{token}}

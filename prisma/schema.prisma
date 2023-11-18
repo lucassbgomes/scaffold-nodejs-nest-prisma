@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CLIENT
+  MANAGER
+  SUPPORT
+  ADMIN
+}
+
+model User {
+  id        String    @id @default(uuid())
+  firstName String    @map("first_name")
+  lastName  String    @map("last_name")
+  username  String    @unique
+  email     String    @unique
+  password  String
+  role      UserRole  @default(CLIENT)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  posts       Post[]
+  SeoOverride SeoOverride[]
+
+  @@map("users")
+}
+
+model Post {
+  id            String    @id @default(uuid())
+  title         String
+  slug          String    @unique
+  excerpt       String
+  coverImage    String    @map("cover_image")
+  content       String
+  seoOverrideId String?   @map("seo_override_id")
+  authorId      String    @map("author_id")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at")
+
+  seoOverride SeoOverride? @relation(fields: [seoOverrideId], references: [id])
+  author      User         @relation(fields: [authorId], references: [id])
+
+  @@map("posts")
+}
+
+model SeoOverride {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  image       String
+  authorId    String    @map("author_id")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime? @updatedAt @map("updated_at")
+
+  author User   @relation(fields: [authorId], references: [id])
+  posts  Post[]
+
+  @@map("seo_overrides")
+}

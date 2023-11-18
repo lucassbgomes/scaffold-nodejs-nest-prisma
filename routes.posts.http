@@ -1,0 +1,61 @@
+@baseUrl = http://localhost:3333
+
+@token = {{authenticate.response.body.access_token}}
+
+###
+
+# @name authenticate
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "username": "testadmin@api.com",
+  "password": "123456"
+}
+
+###
+
+# @name create_seo_override
+POST {{baseUrl}}/posts
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Tit Post 3",
+  "excerpt": "The standard chunk of Lorem Ipsum.",
+  "coverImage": "https://picsum.photos/200",
+  "content": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.",
+  "seoOverrideId": "c1689ca8-dc03-4c3c-91c8-877bc945458f"
+}
+
+###
+
+# @name fetch_posts
+GET {{baseUrl}}/posts
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# @name get_post_by_id
+GET {{baseUrl}}/posts/534fc3e3-8041-44b9-a779-dd7747f72703
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# @name edit_post
+PATCH {{baseUrl}}/posts/534fc3e3-8041-44b9-a779-dd7747f72703
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Title Post 2 Edited"
+}
+
+###
+
+# @name delete_post
+DELETE {{baseUrl}}/posts/7cc8ccf7-8683-4d5a-8b9b-8ae32b9bdf95
+Content-Type: application/json
+Authorization: Bearer {{token}}
