@@ -7,6 +7,13 @@ import {
   Patch,
   UnauthorizedException,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiTags,
+  ApiOperation,
+  ApiBody,
+  ApiResponse,
+} from '@nestjs/swagger';
 
 import { NotAllowedError } from '@/core/errors';
 import { errorNotAllowed } from '@/core/errors/reason/not-allowed.error';
@@ -21,14 +28,27 @@ import {
   EditSeoOverrideRequest,
   editSeoOverrideSchema,
 } from '@/infra/types/zod/seo-overrides';
+import {
+  noContent204ResponseSwagger,
+  unauthorizedErrorSwagger,
+  resourceNotFoundErrorSwagger,
+} from '@/infra/types/swagger/common';
+import { EditSeoOverrideSwagger } from '@/infra/types/swagger/seo-overrides';
 
 const bodyValidationPipe = new ZodValidationPipe(editSeoOverrideSchema);
 
+@ApiBearerAuth()
+@ApiTags('Seo Overrides')
 @Controller('/seo-overrides/:seoOverrideId')
 export class EditSeoOverrideController {
   constructor(private editSeoOverride: NestEditSeoOverrideUseCase) {}
 
   @Patch()
+  @ApiOperation({ summary: 'Edit a seo override by id' })
+  @ApiBody({ type: EditSeoOverrideSwagger })
+  @ApiResponse(noContent204ResponseSwagger)
+  @ApiResponse(unauthorizedErrorSwagger)
+  @ApiResponse(resourceNotFoundErrorSwagger)
   @HttpCode(204)
   async handle(
     @CurrentUser() userLogged: UserPayload,

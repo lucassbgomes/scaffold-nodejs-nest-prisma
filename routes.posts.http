@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ###
 
-# @name create_seo_override
+# @name create_post
 POST {{baseUrl}}/posts
 Content-Type: application/json
 Authorization: Bearer {{token}}

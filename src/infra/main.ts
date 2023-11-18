@@ -1,8 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '@/infra/app.module';
-import { EnvService } from '@/infra/env/env.service';
 import * as cookieParser from 'cookie-parser';
 import { log } from 'console';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
+import { AppModule } from '@/infra/app.module';
+import { EnvService } from '@/infra/env/env.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +13,20 @@ async function bootstrap() {
   const port = configService.get('PORT');
 
   app.use(cookieParser());
+
+  const options = new DocumentBuilder()
+    .setTitle('Scaffold Node.js with NestJS and Prisma')
+    .setDescription('A Node.js scaffold with NestJS and Prisma.')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .addTag('Sessions', 'Manage Sessions Related Requests')
+    .addTag('Users', 'Manage User Related Requests')
+    .addTag('Posts', 'Manage Post Related Requests')
+    .addTag('Seo Overrides', 'Manage Seo Override Related Requests')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(port);
 

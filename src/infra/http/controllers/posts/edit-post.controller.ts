@@ -7,6 +7,13 @@ import {
   Patch,
   UnauthorizedException,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { NotAllowedError } from '@/core/errors';
 import { errorNotAllowed } from '@/core/errors/reason/not-allowed.error';
@@ -18,14 +25,27 @@ import { NestEditPostUseCase } from '@/infra/http/nest-use-cases/posts/nest-edit
 import { ZodValidationPipe } from '@/infra/http/pipes/zod/zod-validation.pipe';
 
 import { EditPostRequest, editPostSchema } from '@/infra/types/zod/posts';
+import { EditPostSwagger } from '@/infra/types/swagger/posts';
+import {
+  noContent204ResponseSwagger,
+  resourceNotFoundErrorSwagger,
+  unauthorizedErrorSwagger,
+} from '@/infra/types/swagger/common';
 
 const bodyValidationPipe = new ZodValidationPipe(editPostSchema);
 
+@ApiBearerAuth()
+@ApiTags('Posts')
 @Controller('/posts/:postId')
 export class EditPostController {
   constructor(private editPost: NestEditPostUseCase) {}
 
   @Patch()
+  @ApiOperation({ summary: 'Edit a post by id' })
+  @ApiBody({ type: EditPostSwagger })
+  @ApiResponse(noContent204ResponseSwagger)
+  @ApiResponse(unauthorizedErrorSwagger)
+  @ApiResponse(resourceNotFoundErrorSwagger)
   @HttpCode(204)
   async handle(
     @CurrentUser() userLogged: UserPayload,

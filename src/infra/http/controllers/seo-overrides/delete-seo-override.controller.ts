@@ -6,6 +6,12 @@ import {
   HttpCode,
   Param,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 
 import { NotAllowedError } from '@/core/errors';
 import { errorNotAllowed } from '@/core/errors/reason/not-allowed.error';
@@ -14,12 +20,23 @@ import { NestDeleteSeoOverrideUseCase } from '@/infra/http/nest-use-cases/seo-ov
 
 import { UserPayload } from '@/infra/auth/strategies/jwt.strategy';
 import { CurrentUser } from '@/infra/auth/create-user.decorator';
+import {
+  noContent204ResponseSwagger,
+  unauthorizedErrorSwagger,
+  resourceNotFoundErrorSwagger,
+} from '@/infra/types/swagger/common';
 
+@ApiBearerAuth()
+@ApiTags('Seo Overrides')
 @Controller('/seo-overrides/:seoOverrideId')
 export class DeleteUserController {
   constructor(private deleteUser: NestDeleteSeoOverrideUseCase) {}
 
   @Delete()
+  @ApiOperation({ summary: 'Delete a seo override by id' })
+  @ApiResponse(noContent204ResponseSwagger)
+  @ApiResponse(unauthorizedErrorSwagger)
+  @ApiResponse(resourceNotFoundErrorSwagger)
   @HttpCode(204)
   async handle(
     @CurrentUser() userLogged: UserPayload,

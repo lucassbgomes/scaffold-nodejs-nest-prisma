@@ -19,7 +19,17 @@ import {
   InvalidCredentialsError,
   TokenExpiredError,
 } from '@/domain/website/application/use-cases/session/errors';
+import { unauthorizedErrorSwagger } from '@/infra/types/swagger/common';
+import { authenticate201ResponseSwagger } from '@/infra/types/swagger/sessions';
+import {
+  ApiBearerAuth,
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Sessions')
 @Controller('/sessions/refresh-token')
 export class RefreshTokenUserController {
   constructor(private refreshTokenUser: NestRefreshTokenUserUseCase) {}
@@ -27,9 +37,12 @@ export class RefreshTokenUserController {
   @Public()
   @UseGuards(RefreshTokenJwtGuard)
   @Post()
+  @ApiOperation({ summary: 'Refresh user token' })
+  @ApiResponse(authenticate201ResponseSwagger)
+  @ApiResponse(unauthorizedErrorSwagger)
   async handle(
     @CurrentUser() user: UserPayload,
-    @Cookies('refresh_token') refresh_token,
+    @Cookies('refresh_token') refresh_token: string,
     @Res({ passthrough: true }) response: Response,
   ) {
     if (!user) {

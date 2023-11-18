@@ -8,8 +8,9 @@ export class PostPresenter {
       slug: post.slug.value,
       excerpt: post.excerpt,
       coverImage: post.coverImage,
-      seoOverrideId: post.seoOverrideId,
-      authorId: post.authorId,
+      content: post.content,
+      seoOverrideId: post.seoOverrideId?.toString(),
+      authorId: post.authorId.toString(),
       createdAt: post.createdAt,
       updatedAt: post.updatedAt,
     };

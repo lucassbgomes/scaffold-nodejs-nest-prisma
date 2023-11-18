@@ -28,7 +28,7 @@ Authorization: Bearer {{token}}
 
 ###
 
-# @name fetch_posts
+# @name fetch_seo_overrides
 GET {{baseUrl}}/seo-overrides
 Content-Type: application/json
 Authorization: Bearer {{token}}

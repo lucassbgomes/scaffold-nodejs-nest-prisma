@@ -7,7 +7,7 @@ export class SeoOverridePresenter {
       title: seoOverride.title,
       description: seoOverride.description,
       image: seoOverride.image,
-      authorId: seoOverride.authorId,
+      authorId: seoOverride.authorId.toString(),
       createdAt: seoOverride.createdAt,
       updatedAt: seoOverride.updatedAt,
     };
