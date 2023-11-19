@@ -8,6 +8,13 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiTags,
+  ApiOperation,
+  ApiBody,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { Request } from 'express';
 
 import { NotAllowedError } from '@/core/errors';
@@ -19,14 +26,27 @@ import { NestEditUserUseCase } from '@/infra/http/nest-use-cases/users/nest-edit
 import { UserPayload } from '@/infra/auth/strategies/jwt.strategy';
 import { ZodValidationPipe } from '@/infra/http/pipes/zod/zod-validation.pipe';
 import { editUserSchema } from '@/infra/types/zod/users';
+import {
+  noContent204ResponseSwagger,
+  unauthorizedErrorSwagger,
+  resourceNotFoundErrorSwagger,
+} from '@/infra/types/swagger/common';
+import { EditUserSwagger } from '@/infra/types/swagger/users';
 
 const bodyValidationPipe = new ZodValidationPipe(editUserSchema);
 
+@ApiBearerAuth()
+@ApiTags('Users')
 @Controller('/users/:userId')
 export class EditUserController {
   constructor(private editUser: NestEditUserUseCase) {}
 
   @Patch()
+  @ApiOperation({ summary: 'Edit a user by id' })
+  @ApiBody({ type: EditUserSwagger })
+  @ApiResponse(noContent204ResponseSwagger)
+  @ApiResponse(unauthorizedErrorSwagger)
+  @ApiResponse(resourceNotFoundErrorSwagger)
   @HttpCode(204)
   async handle(
     @Param('userId') userId: string,

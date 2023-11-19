@@ -143,7 +143,7 @@
   "editor.accessibilitySupport": "off",
   "explorer.confirmDragAndDrop": false,
   "terminal.integrated.fontSize": 14,
-  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+  "terminal.integrated.fontFamily": "monospace",
   "editor.semanticHighlighting.enabled": false,
   "breadcrumbs.enabled": true,
   "workbench.productIconTheme": "fluent-icons",

@@ -55,14 +55,14 @@ export class CreateUserSwagger extends OmitType(UserDataSwagger, [
 
 export class EditUserSwagger extends PartialType(CreateUserSwagger) {}
 
-export class GetUserByIdSwagger {
+export class GetUserSwagger {
   @ApiProperty({ nullable: true })
   user!: UserDataSwagger;
 }
-export const getUserByIdSwagger = {
+export const getUserSwagger = {
   status: 200,
   description: 'Return a user',
-  type: GetUserByIdSwagger,
+  type: GetUserSwagger,
 };
 
 export class FetchUsersSwagger {
