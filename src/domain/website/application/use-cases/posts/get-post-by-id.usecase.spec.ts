@@ -2,15 +2,26 @@ import { ResourceNotFoundError } from '@/core/errors';
 
 import { GetPostByIdUseCase } from './get-post-by-id.usecase';
 
-import { InMemoryPostsRepository } from 'test/repositories';
+import {
+  InMemoryPostsRepository,
+  InMemorySeoOverridesRepository,
+  InMemoryUsersRepository,
+} from 'test/repositories';
 import makePost from 'test/factories/make-post';
 
 describe('Get Post By Id Use Case', () => {
   let inMemoryRepository: InMemoryPostsRepository;
+  let seoOverrideRepository: InMemorySeoOverridesRepository;
+  let usersRepository: InMemoryUsersRepository;
   let sut: GetPostByIdUseCase;
 
   beforeAll(async () => {
-    inMemoryRepository = new InMemoryPostsRepository();
+    seoOverrideRepository = new InMemorySeoOverridesRepository();
+    usersRepository = new InMemoryUsersRepository();
+    inMemoryRepository = new InMemoryPostsRepository(
+      usersRepository,
+      seoOverrideRepository,
+    );
     sut = new GetPostByIdUseCase(inMemoryRepository);
   });
 

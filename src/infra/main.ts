@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
-import { log } from 'console';
+import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { log } from 'console';
 
 import { AppModule } from '@/infra/app.module';
 import { EnvService } from '@/infra/env/env.service';
@@ -9,10 +10,12 @@ import { EnvService } from '@/infra/env/env.service';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+  app.use(helmet());
+  app.use(cookieParser());
+
   const configService = app.get(EnvService);
   const port = configService.get('PORT');
-
-  app.use(cookieParser());
 
   const options = new DocumentBuilder()
     .setTitle('Scaffold Node.js with NestJS and Prisma')

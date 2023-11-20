@@ -5,6 +5,8 @@ import {
   PartialType,
   PickType,
 } from '@nestjs/swagger';
+import { SeoOverrideDataSwagger } from '../seo-overrides';
+import { UserDataSwagger } from '../users';
 
 export class PostDataSwagger {
   @ApiProperty({ example: '534fc3e3-8041-44b9-a779-dd7747f72703' })
@@ -62,6 +64,17 @@ export class CreatePostSwagger extends IntersectionType(
 
 export class EditPostSwagger extends PartialType(CreatePostSwagger) {}
 
+export class PostDetailsSwagger extends OmitType(PostDataSwagger, [
+  'authorId',
+  'seoOverrideId',
+]) {
+  @ApiProperty({ nullable: true })
+  seoOverride?: SeoOverrideDataSwagger;
+
+  @ApiProperty()
+  author!: UserDataSwagger;
+}
+
 export class GetPostByIdSwagger {
   @ApiProperty({ nullable: true })
   post!: PostDataSwagger;
@@ -70,6 +83,17 @@ export const getPostByIdSwagger = {
   status: 200,
   description: 'Return a post',
   type: GetPostByIdSwagger,
+};
+
+export class GetPostDetailsSwagger {
+  @ApiProperty({ nullable: true })
+  post!: PostDetailsSwagger;
+}
+
+export const getPostDetailsSwagger = {
+  status: 200,
+  description: 'Returns details of a post',
+  type: GetPostDetailsSwagger,
 };
 
 export class FetchPostsSwagger {

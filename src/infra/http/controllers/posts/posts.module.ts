@@ -5,12 +5,14 @@ import { DatabaseModule } from '@/infra/database/database.module';
 import { NestCreatePostUseCase } from '@/infra/http/nest-use-cases/posts/nest-create-post.usecase';
 import { NestFetchPostsUseCase } from '@/infra/http/nest-use-cases/posts/nest-fetch-posts.usecase';
 import { NestGetPostByIdUseCase } from '@/infra/http/nest-use-cases/posts/nest-get-post-by-id.usecase';
+import { NestGetPostDetailsUseCase } from '@/infra/http/nest-use-cases/posts/nest-get-post-details.usecase';
 import { NestEditPostUseCase } from '@/infra/http/nest-use-cases/posts/nest-edit-post.usecase';
 import { NestDeletePostUseCase } from '@/infra/http/nest-use-cases/posts/nest-delete-post.usecase';
 
 import { CreatePostController } from '@/infra/http/controllers/posts/create-post.controller';
 import { FetchPostsController } from '@/infra/http/controllers/posts/fetch-posts.controller';
 import { GetPostByIdController } from '@/infra/http/controllers/posts/get-post-by-id.controller';
+import { GetPostDetailsController } from '@/infra/http/controllers/posts/get-post-details.controller';
 import { EditPostController } from '@/infra/http/controllers/posts/edit-post.controller';
 import { DeleteUserController } from '@/infra/http/controllers/posts/delete-post.controller';
 
@@ -20,6 +22,7 @@ import { DeleteUserController } from '@/infra/http/controllers/posts/delete-post
     CreatePostController,
     FetchPostsController,
     GetPostByIdController,
+    GetPostDetailsController,
     EditPostController,
     DeleteUserController,
   ],
@@ -27,6 +30,7 @@ import { DeleteUserController } from '@/infra/http/controllers/posts/delete-post
     NestCreatePostUseCase,
     NestFetchPostsUseCase,
     NestGetPostByIdUseCase,
+    NestGetPostDetailsUseCase,
     NestEditPostUseCase,
     NestDeletePostUseCase,
   ],
@@ -34,6 +38,7 @@ import { DeleteUserController } from '@/infra/http/controllers/posts/delete-post
     NestCreatePostUseCase,
     NestFetchPostsUseCase,
     NestGetPostByIdUseCase,
+    NestGetPostDetailsUseCase,
     NestEditPostUseCase,
     NestDeletePostUseCase,
   ],

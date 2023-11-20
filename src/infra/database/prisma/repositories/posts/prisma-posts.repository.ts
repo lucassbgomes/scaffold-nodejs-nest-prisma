@@ -7,6 +7,8 @@ import { PostEntity } from '@/domain/website/enterprise/entities';
 
 import { PrismaPostMapper } from '@/infra/database/prisma/mappers/posts/prisma-post.mapper';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { PrismaPostDetailsMapper } from '../../mappers/posts/prisma-post-details.mapper';
+import { PostDetails } from '@/domain/website/enterprise/entities/post/value-objects/post-details';
 
 @Injectable()
 export class PrismaPostsRepository implements PostsRepository {
@@ -20,6 +22,22 @@ export class PrismaPostsRepository implements PostsRepository {
     }
 
     return PrismaPostMapper.toDomain(post);
+  }
+
+  async findDetailsById(id: string): Promise<PostDetails | null> {
+    const post = await this.prisma.post.findUnique({
+      where: { id },
+      include: {
+        seoOverride: true,
+        author: true,
+      },
+    });
+
+    if (!post) {
+      return null;
+    }
+
+    return PrismaPostDetailsMapper.toDomain(post);
   }
 
   async findMany({ page, size = 20 }: FetchParams): Promise<PostEntity[]> {
