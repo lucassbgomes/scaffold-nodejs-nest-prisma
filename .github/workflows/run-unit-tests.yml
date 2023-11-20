@@ -38,4 +38,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: npm run test
+      - run: pnpm run test
