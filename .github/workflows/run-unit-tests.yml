@@ -38,4 +38,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - run: pnpm prisma migrate dev
+
       - run: pnpm run test
