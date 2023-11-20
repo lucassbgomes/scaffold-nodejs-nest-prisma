@@ -44,6 +44,13 @@ Authorization: Bearer {{token}}
 
 ###
 
+# @name get_post_details
+GET {{baseUrl}}/posts/534fc3e3-8041-44b9-a779-dd7747f72703/details
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
 # @name edit_post
 PATCH {{baseUrl}}/posts/534fc3e3-8041-44b9-a779-dd7747f72703
 Content-Type: application/json
